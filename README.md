@@ -1,38 +1,66 @@
-# EPI-AutoTypingStudy
+# ⌨️ EPI-AutoTypingStudy
 
-Script de frappe automatisé pour [TypingStudy.com](https://www.typingstudy.com/). Simule le comportement de frappe humain à ~60 WPM.
+Script de frappe automatisé intelligent pour [TypingStudy.com](https://www.typingstudy.com/).  
+Ce bot simule une frappe humaine réaliste avec des variations de vitesse, des erreurs aléatoires et des corrections automatiques.
 
-## Utilisation
+---
 
-### 1. Copier le script
-Ouvrez [script.js](./script.js) et copiez tout le contenu.
+## ✨ Fonctionnalités
+- **Frappe "Humaine"** : Délais aléatoires basés sur une distribution normale.
+- **Gestion des Erreurs** : Capable de faire des fautes et de les corriger immédiatement avec `Backspace`.
+- **Anti-Double Launch** : Empêche l'exécution de plusieurs scripts simultanément.
+- **Séquences d'échappement** : Gère proprement les retours à la ligne (`\n`) injectés par le site.
+- **Configurable** : Vitesse et taux d'erreur modifiables sans toucher au code source.
 
-### 2. Ouvrir les outils de développement
-Naviguez vers la page de leçon de dactylographie sur TypingStudy.com.
+---
 
-- **Google Chrome / Microsoft Edge**: Appuyez sur `F12` ou `Ctrl + Shift + I`. Cliquez sur l'onglet **Console**.
-- **Mozilla Firefox**: Appuyez sur `F12` ou `Ctrl + Shift + K`. Cliquez sur l'onglet **Console**.
+## 🚀 Méthodes d'utilisation
 
-### 3. Autoriser le collage (Important !)
-Les navigateurs modernes bloquent souvent le collage dans la console pour des raisons de sécurité.
+### 1. La méthode "Bookmarklet" (La plus rapide ⚡)
+Lancez le bot en un seul clic sans ouvrir la console !
 
-- **Chrome/Edge**: Si vous voyez un avertissement, tapez `allow pasting` et appuyez sur Entrée. Puis collez à nouveau le script.
-- **Firefox**: Si vous voyez un avertissement, tapez `allow pasting` (ou suivez l'instruction spécifique à l'écran) et appuyez sur Entrée.
+1. Affichez votre barre de favoris (`Ctrl + Shift + B`).
+2. Faites un clic droit sur la barre > **Ajouter une page** (ou un favori).
+3. **Nom** : `🤖 Bot Typing`
+4. **URL / Adresse** : Copiez-collez le bloc ci-dessous :
+   ```javascript
+   javascript:(function(){ window.BOT_WPM = 60; window.BOT_ERRORS = [0, 1, 2, 3]; fetch('https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/script.js').then(r => r.text()).then(eval); })();
+   ```
 
-### 4. Exécuter le script
-1. Collez le code copié dans la zone de la console.
-2. Appuyez sur **Entrée**.
-3. Le script commencera automatiquement à taper le texte de la leçon.
+### 2. La méthode Console (Personnalisation 🛠️)
+Utile pour ajuster les paramètres précisément avant un exercice spécifique.
 
-## Fonctionnalités
-- **Frappe réaliste**: Moyenne ~60 WPM avec des délais aléatoires.
-- **Comportement humain**: Simule les événements de touche appropriés (`keydown`, `keypress`, `input`, `keyup`) et les temps de maintien des touches.
-- **Taux d'erreur**: Actuellement défini à 1% d'erreurs.
-
-## Méthode Rapide (Avancé)
-Au lieu de copier-coller le code à chaque fois, vous pouvez exécuter cette commande dans la console pour charger la dernière version directement depuis GitHub :
+1. Allez sur une leçon sur [TypingStudy](https://www.typingstudy.com/).
+2. Ouvrez la console (`F12` ou `Ctrl + Shift + I`).
+3. (Si nécessaire) Tapez `allow pasting` et appuyez sur Entrée.
+4. Collez et modifiez ce code :
 
 ```javascript
-fetch('https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/script.js').then(r => r.text()).then(eval);
+// --- CONFIGURATION OPTIONNELLE ---
+window.BOT_WPM = 75;         // Vitesse (mots par minute)
+window.BOT_ERRORS = [0, 1, 2, 3];  // Choisit aléatoirement 0, 1, 2 ou 3 fautes
+
+// --- EXECUTION ---
+fetch('https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/script.js')
+    .then(r => r.text())
+    .then(eval);
 ```
 
+---
+
+## ⚙️ Paramètres disponibles
+
+Si vous ne définissez pas de variables globales avant l'exécution, le script utilise ces valeurs par défaut :
+
+| Variable | Valeur par défaut | Description |
+| :--- | :--- | :--- |
+| `window.BOT_WPM` | `60` | Vitesse cible (Words Per Minute). |
+| `window.BOT_ERRORS` | `[0, 1, 2, 3]` | Un nombre fixe (ex: `5`) ou un tableau pour un choix aléatoire. |
+
+---
+
+> [!WARNING]  
+> **Sécurité & Avertissement**  
+> Ce script est destiné à des fins éducatives. Bien que le comportement soit conçu pour paraître humain, l'utilisation d'outils d'automatisation peut être contraire aux conditions d'utilisation de certains sites. À utiliser de manière responsable.
+
+_Projet maintenu par JordiBrisbois._
