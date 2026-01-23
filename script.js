@@ -1,6 +1,6 @@
 (async () => {
     // === CONFIGURATION ===
-    const TARGET_WPM = 70;
+    const TARGET_WPM = 60;
     const ERROR_RATE = 0.01;
 
     const inputArea = document.getElementById('type');
