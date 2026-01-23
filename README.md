@@ -1,30 +1,30 @@
 # EPI-AutoTypingStudy
 
-Automated typing script for [TypingStudy.com](https://www.typingstudy.com/). Simulates human typing behavior at ~70 WPM.
+Script de frappe automatisé pour [TypingStudy.com](https://www.typingstudy.com/). Simule le comportement de frappe humain à ~70 WPM.
 
-## Usage
+## Utilisation
 
-### 1. Copy the Script
-Open [script.js](./script.js) and copy the entire content.
+### 1. Copier le script
+Ouvrez [script.js](./script.js) et copiez tout le contenu.
 
-### 2. Open Developer Tools
-Navigate to the typing lesson page on TypingStudy.com.
+### 2. Ouvrir les outils de développement
+Naviguez vers la page de leçon de dactylographie sur TypingStudy.com.
 
-- **Google Chrome / Microsoft Edge**: Press `F12` or `Ctrl + Shift + I`. Click on the **Console** tab.
-- **Mozilla Firefox**: Press `F12` or `Ctrl + Shift + K`. Click on the **Console** tab.
+- **Google Chrome / Microsoft Edge**: Appuyez sur `F12` ou `Ctrl + Shift + I`. Cliquez sur l'onglet **Console**.
+- **Mozilla Firefox**: Appuyez sur `F12` ou `Ctrl + Shift + K`. Cliquez sur l'onglet **Console**.
 
-### 3. Allow Pasting (Important!)
-Modern browsers often block pasting into the console for security.
+### 3. Autoriser le collage (Important !)
+Les navigateurs modernes bloquent souvent le collage dans la console pour des raisons de sécurité.
 
-- **Chrome/Edge**: If you see a warning, type `allow pasting` and press Enter. Then paste the script again.
-- **Firefox**: If you see a warning, type `allow pasting` (or follow the specific on-screen instruction) and press Enter.
+- **Chrome/Edge**: Si vous voyez un avertissement, tapez `allow pasting` et appuyez sur Entrée. Puis collez à nouveau le script.
+- **Firefox**: Si vous voyez un avertissement, tapez `allow pasting` (ou suivez l'instruction spécifique à l'écran) et appuyez sur Entrée.
 
-### 4. Run the Script
-1. Paste the copied code into the console area.
-2. Press **Enter**.
-3. The script will automatically start typing the lesson text.
+### 4. Exécuter le script
+1. Collez le code copié dans la zone de la console.
+2. Appuyez sur **Entrée**.
+3. Le script commencera automatiquement à taper le texte de la leçon.
 
-## Features
-- **Realistic Typing**: Averages ~70 WPM with randomized delays.
-- **Human-like Behavior**: Simulates proper key events (`keydown`, `keypress`, `input`, `keyup`) and key hold times.
-- **Error Free**: Currently set to 0% error rate.
+## Fonctionnalités
+- **Frappe réaliste**: Moyenne ~70 WPM avec des délais aléatoires.
+- **Comportement humain**: Simule les événements de touche appropriés (`keydown`, `keypress`, `input`, `keyup`) et les temps de maintien des touches.
+- **Taux d'erreur**: Actuellement défini à 1% d'erreurs.
