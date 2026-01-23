@@ -63,4 +63,4 @@ Si vous ne définissez pas de variables globales avant l'exécution, le script u
 > **Sécurité & Avertissement**  
 > Ce script est destiné à des fins éducatives. Bien que le comportement soit conçu pour paraître humain, l'utilisation d'outils d'automatisation peut être contraire aux conditions d'utilisation de certains sites. À utiliser de manière responsable.
 
-_Projet maintenu par JordiBrisbois._
+_Projet maintenu par Jordi Brisbois._
