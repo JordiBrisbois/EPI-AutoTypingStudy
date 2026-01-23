@@ -1,6 +1,6 @@
 # EPI-AutoTypingStudy
 
-Script de frappe automatisé pour [TypingStudy.com](https://www.typingstudy.com/). Simule le comportement de frappe humain à ~70 WPM.
+Script de frappe automatisé pour [TypingStudy.com](https://www.typingstudy.com/). Simule le comportement de frappe humain à ~60 WPM.
 
 ## Utilisation
 
@@ -25,7 +25,7 @@ Les navigateurs modernes bloquent souvent le collage dans la console pour des ra
 3. Le script commencera automatiquement à taper le texte de la leçon.
 
 ## Fonctionnalités
-- **Frappe réaliste**: Moyenne ~70 WPM avec des délais aléatoires.
+- **Frappe réaliste**: Moyenne ~60 WPM avec des délais aléatoires.
 - **Comportement humain**: Simule les événements de touche appropriés (`keydown`, `keypress`, `input`, `keyup`) et les temps de maintien des touches.
 - **Taux d'erreur**: Actuellement défini à 1% d'erreurs.
 
