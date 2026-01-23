@@ -1,134 +1,104 @@
 (async () => {
-    // === CONFIGURATION ===
-    const TARGET_WPM = 60;
-    const ERROR_RATE = 0.01;
+    // === CONFIGURATION HUMAINE ===
+    const TARGET_WPM = 65; // Un peu plus lent pour les textes avec beaucoup de 'x' et 'z'
+
+    // On choisit le nombre de fautes pour TOUT l'exercice
+    // 0 = parfait, 1 à 3 = humain
+    const errorOptions = [0, 1, 2, 3];
+    const totalErrorsNeeded = errorOptions[Math.floor(Math.random() * errorOptions.length)];
 
     const inputArea = document.getElementById('type');
     const hiddenInput = document.getElementById('type_text');
-
-    if (!inputArea || !hiddenInput) {
-        console.error("Could not find input elements.");
-        return;
-    }
+    if (!inputArea || !hiddenInput) return;
 
     const targetText = hiddenInput.value;
-    const wordCount = targetText.trim().split(/\s+/).length;
-    const targetTimeMs = (wordCount / TARGET_WPM) * 60000;
-    const AVG_DELAY = targetTimeMs / targetText.length;
+    const totalChars = targetText.length;
 
+
+    const errorIndices = new Set();
+    if (totalErrorsNeeded > 0) {
+        while (errorIndices.size < totalErrorsNeeded) {
+
+            let randomIndex = Math.floor(Math.random() * (totalChars - 20)) + 10;
+
+            if (targetText[randomIndex] !== ' ' && targetText[randomIndex] !== '¶' && targetText[randomIndex] !== '\n') {
+                errorIndices.add(randomIndex);
+            }
+        }
+    }
+
+    console.log(`[BOT] Mode : ${totalErrorsNeeded === 0 ? "Parfait" : totalErrorsNeeded + " fautes prévues"}.`);
+
+
+    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
     const randomNormal = (mean, stdDev) => {
         let u = 0, v = 0;
         while (u === 0) u = Math.random();
         while (v === 0) v = Math.random();
-        let num = Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v);
-        return mean + (num * stdDev);
+        return mean + (Math.sqrt(-2.0 * Math.log(u)) * Math.cos(2.0 * Math.PI * v) * stdDev);
     };
 
-    const sleep = (ms) => new Promise(r => setTimeout(r, ms));
+    async function sendKey(char) {
+        let key = char;
+        let keyCode = (char === 'Enter' || char === '¶') ? 13 : char.charCodeAt(0);
+        let code = (/[a-z]/i.test(char) ? `Key${char.toUpperCase()}` : 'Quote');
+
+        if (char === ' ') { keyCode = 32; code = 'Space'; }
+        if (char === 'Enter' || char === '¶') { key = 'Enter'; keyCode = 13; code = 'Enter'; }
+        if (char === 'Backspace') { key = 'Backspace'; keyCode = 8; code = 'Backspace'; }
+
+        const opts = { bubbles: true, cancelable: true, view: window };
+
+
+        inputArea.dispatchEvent(new KeyboardEvent('keydown', { ...opts, key, code, keyCode, which: keyCode }));
+
+        if (char !== 'Backspace') {
+            inputArea.dispatchEvent(new KeyboardEvent('keypress', { ...opts, key, code, keyCode, which: keyCode, charCode: keyCode }));
+        }
+
+
+        let inputType = (key === 'Enter') ? 'insertLineBreak' : (key === 'Backspace' ? 'deleteContentBackward' : 'insertText');
+        inputArea.dispatchEvent(new InputEvent('input', { ...opts, data: (key === 'Enter' || key === 'Backspace') ? null : char, inputType }));
+
+        await sleep(randomNormal(50, 10));
+        inputArea.dispatchEvent(new KeyboardEvent('keyup', { ...opts, key, code, keyCode, which: keyCode }));
+    }
+
 
     inputArea.focus();
     inputArea.value = "";
 
     for (let i = 0; i < targetText.length; i++) {
-        let char = targetText[i];
-        let nextChar = targetText[i + 1];
+        const char = targetText[i];
 
-        let isEnter = false;
-        let charCode = 0;
-        let keyCode = 0;
-        let code = '';
-        let key = '';
+
+        if (errorIndices.has(i)) {
+            const wrongChar = "sqdfghj"[Math.floor(Math.random() * 7)];
+            await sendKey(wrongChar);
+            console.warn(`[BOT] Faute volontaire : '${wrongChar}' au lieu de '${char}'`);
+
+            await sleep(randomNormal(350, 80));
+            await sendKey('Backspace');
+            await sleep(randomNormal(200, 40));
+        }
+
 
         if (char === '¶' || char === '\n') {
-            isEnter = true;
-            char = '\n';
-        } else if (char === '\\' && nextChar === 'n') {
-            isEnter = true;
-            char = '\n';
-            i++;
-        }
-
-        if (isEnter) {
-            key = 'Enter';
-            code = 'Enter';
-            keyCode = 13;
-            charCode = 13;
+            await sendKey('Enter');
         } else {
-            key = char;
-            charCode = char.charCodeAt(0);
-
-            if (/[a-z]/.test(char)) {
-                keyCode = char.toUpperCase().charCodeAt(0);
-                code = `Key${char.toUpperCase()}`;
-            } else if (/[A-Z]/.test(char)) {
-                keyCode = char.charCodeAt(0);
-                code = `Key${char}`;
-            } else if (/[0-9]/.test(char)) {
-                keyCode = char.charCodeAt(0);
-                code = `Digit${char}`;
-            } else if (char === ' ') {
-                keyCode = 32;
-                code = 'Space';
-            } else {
-                keyCode = char.charCodeAt(0);
-                code = 'Quote';
-            }
+            await sendKey(char);
         }
 
-        const commonOpts = {
-            bubbles: true,
-            cancelable: true,
-            view: window
-        };
 
-        const downEvent = new KeyboardEvent('keydown', {
-            ...commonOpts,
-            key: key,
-            code: code,
-            keyCode: keyCode,
-            which: keyCode,
-            charCode: 0
-        });
-        inputArea.dispatchEvent(downEvent);
+        const msPerChar = 60000 / (TARGET_WPM * 5);
+        let delay = randomNormal(msPerChar - 55, 15);
 
-        if (key.length === 1 || key === 'Enter') {
-            const pressEvent = new KeyboardEvent('keypress', {
-                ...commonOpts,
-                key: key,
-                code: code,
-                keyCode: charCode,
-                which: charCode,
-                charCode: charCode
-            });
-            inputArea.dispatchEvent(pressEvent);
-        }
 
-        const inputEvent = new InputEvent('input', {
-            ...commonOpts,
-            data: isEnter ? null : char,
-            inputType: isEnter ? 'insertLineBreak' : 'insertText'
-        });
-        inputArea.dispatchEvent(inputEvent);
+        if (/[A-Z]/.test(char)) delay += 100;
+        if (char === ' ') delay += 40;
 
-        await sleep(randomNormal(50, 15));
-
-        const upEvent = new KeyboardEvent('keyup', {
-            ...commonOpts,
-            key: key,
-            code: code,
-            keyCode: keyCode,
-            which: keyCode,
-            charCode: 0
-        });
-        inputArea.dispatchEvent(upEvent);
-
-        let delay = randomNormal(AVG_DELAY - 50, 30);
-
-        if (isEnter) delay += 100;
-        if (char === ' ') delay += 20;
-
-        if (delay < 10) delay = 10;
-
-        await sleep(delay);
+        await sleep(Math.max(15, delay));
     }
+
+    console.log("[BOT] Exercice terminé.");
 })();
