@@ -28,3 +28,11 @@ Les navigateurs modernes bloquent souvent le collage dans la console pour des ra
 - **Frappe réaliste**: Moyenne ~70 WPM avec des délais aléatoires.
 - **Comportement humain**: Simule les événements de touche appropriés (`keydown`, `keypress`, `input`, `keyup`) et les temps de maintien des touches.
 - **Taux d'erreur**: Actuellement défini à 1% d'erreurs.
+
+## Méthode Rapide (Avancé)
+Au lieu de copier-coller le code à chaque fois, vous pouvez exécuter cette commande dans la console pour charger la dernière version directement depuis GitHub :
+
+```javascript
+fetch('https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/script.js').then(r => r.text()).then(eval);
+```
+
