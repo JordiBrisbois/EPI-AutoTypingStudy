@@ -34,6 +34,8 @@
 
 **Lancez le bot en un clic depuis vos favoris !**
 
+> 💡 **Guide Complet** : [Voir le tutoriel détaillé pour installer le Bookmarklet](Bookmarklet.md)
+
 1. **Affichez votre barre de favoris** : `Ctrl + Shift + B` (Chrome/Edge) ou `Cmd + Shift + B` (Mac)
 
 2. **Créez un nouveau favori** :
