@@ -1,8 +1,8 @@
-# ⌨️ TypingStudy Bot v2.0
+# ⌨️ TypingStudy Bot v2.1
 
 **Bot d'auto-typing intelligent pour [TypingStudy.com](https://www.typingstudy.com)** avec simulation humaine avancée et calibration automatique du WPM.
 
-[![Version](https://img.shields.io/badge/version-2.0-blue.svg)](https://github.com/JordiBrisbois/EPI-AutoTypingStudy)
+[![Version](https://img.shields.io/badge/version-2.1-blue.svg)](https://github.com/JordiBrisbois/EPI-AutoTypingStudy)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ---
@@ -251,6 +251,12 @@ délai_final = normale(délai_base, ±15%)
 ---
 
 ## 📜 Changelog
+
+### v2.1 (2025-01-25)
+- ✨ Ajout du Userscript Tampermonkey
+- ♾️ Mode Auto (Enchaînement automatique des leçons)
+- 🛑 Kill Switch et Sûreté
+- 🎲 WPM Aléatoire entre les sessions
 
 ### v2.0 (2025-01-24)
 - ✨ Compensation automatique du WPM
