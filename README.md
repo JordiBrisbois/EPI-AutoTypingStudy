@@ -7,18 +7,19 @@
 
 ---
 
-## 📜 Changelog
+## ✨ Fonctionnalités
 
-### v2.3.1 (2025-01-25)
-- 🌍 **Support Étendu** : Le bot fonctionne maintenant sur les pages **Speed Test**, **Typing Test** et **Numeric Keypad**.
-- 🛠️ Mise à jour des URLs de correspondance (`@match`).
+### 💎 Nouveautés v2.3 (Pro)
+- **Interface Complète** : Boutons flottants pour gérer le bot, voir les stats et l'aide.
+- **Support Universel** : Fonctionne sur Leçons, Speed Test, Typing Test et Pavé Numérique.
+- **Mode Auto Infini** : Enchaîne automatiquement les leçons sans intervention.
+- **Kill Switch** : Arrêt d'urgence instantané (`Echap`).
+- **Statistiques** : Suivi précis de vos sessions (WPM moyen, temps).
 
-### v2.3.0 (2025-01-25) - "Pro Edition" 💎
-- **Mode Auto Infini** : Enchaîne automatiquement les leçons sans intervention
-- **Kill Switch** : Arrêt d'urgence instantané avec la touche `Echap`
-- **WPM Aléatoire** : Variation réaliste de la vitesse cible à chaque nouvel exercice
-- **Compensation Automatique** : Calibration précise pour atteindre le WPM visé
-- **Erreurs Réalistes** : Substitution de caractères proches (sans correction)
+### 🚀 Fonctionnalités Clés
+- **WPM Aléatoire** : Variation réaliste de la vitesse cible à chaque nouvel exercice.
+- **Compensation Automatique** : Calibration précise pour atteindre le WPM visé.
+- **Erreurs Réalistes** : Substitution de caractères proches (sans correction).
 
 ### 🧠 Simulation Humaine Avancée
 - **Distribution Normale** : Délais basés sur Box-Muller transform (variation ±15%)
@@ -255,6 +256,16 @@ délai_final = normale(délai_base, ±15%)
 ---
 
 ## 📜 Changelog
+
+### v2.3.1 (2025-01-25)
+- 🌍 **Support Étendu** : Le bot fonctionne maintenant sur les pages **Speed Test**, **Typing Test** et **Numeric Keypad**.
+- 🛠️ Mise à jour des URLs de correspondance (`@match`).
+
+### v2.3.0 (2025-01-25) - "Pro Edition" 💎
+- 🖥️ **Nouvelle Interface UI** : Boutons flottants pour contrôle (🤖 Auto, 📊 Stats, ❓ Aide).
+- 📊 **Statistiques de Session** : Suivi exercices, temps, WPM moyen.
+- ⚡ **Optimisation** : MutationObserver (0% CPU).
+- 🐛 **Correctifs** : Logique raccourcis.
 
 ### v2.1.1 (2025-01-25)
 - 🐛 **Correction Kill Switch** : L'appui sur `Echap` annule désormais correctement les redirections en attente (race condition).
