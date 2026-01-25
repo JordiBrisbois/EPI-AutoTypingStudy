@@ -1,3 +1,10 @@
+// ═══════════════════════════════════════════════════════════════════════
+// TypingStudy Bot v2.0
+// Auteur: Jordi Brisbois
+// GitHub: https://github.com/JordiBrisbois/EPI-AutoTypingStudy
+// License: MIT
+// ═══════════════════════════════════════════════════════════════════════
+
 (async function () {
   'use strict';
 
@@ -16,12 +23,30 @@
   // ═══════════════════════════════════════════════════════════════════
   // CONSTANTES ET VARIABLES GLOBALES
   // ═══════════════════════════════════════════════════════════════════
-  const BASE_PENALTY = 1.23; // Calibré après plusieurs tests : compensation précise
-  const ERROR_PENALTY_FACTOR = 0.015; // Chaque erreur ajoute ~1.5% de pénalité
+  const BASE_PENALTY = 1.23;
+  const ERROR_PENALTY_FACTOR = 0.015;
 
   let NUM_ERRORS = 0;
   let totalChars = 0;
   let startTime = 0;
+  let AUTO_MODE = false;
+
+  // ═══════════════════════════════════════════════════════════════════
+  // RESTAURATION DES PARAMÈTRES (MODE AUTO)
+  // ═══════════════════════════════════════════════════════════════════
+
+  if (sessionStorage.getItem('BOT_AUTOMODE') === 'true') {
+    window.BOT_AUTOMODE = true;
+    window.BOT_WPM = parseInt(sessionStorage.getItem('BOT_WPM')) || 60;
+    try {
+      window.BOT_ERRORS = JSON.parse(sessionStorage.getItem('BOT_ERRORS')) || [0, 1, 2, 3];
+    } catch (e) {
+      window.BOT_ERRORS = [0, 1, 2, 3];
+    }
+    console.log('%c🔄 Mode Auto restauré depuis la session précédente', 'color: #ff9800; font-weight: bold;');
+  }
+
+  AUTO_MODE = window.BOT_AUTOMODE || false;
 
   try {
     // ═══════════════════════════════════════════════════════════════════
