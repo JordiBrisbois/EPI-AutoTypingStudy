@@ -9,11 +9,12 @@
 
 ## ✨ Fonctionnalités
 
-### 🎯 Nouvelle v2.0
-- **Compensation Automatique du WPM** : Entrez le WPM que vous voulez voir affiché sur le site, le bot s'ajuste automatiquement
-- **Gestion Native du `¶`** : Comprend que `¶` = espace (et non retour à la ligne)
-- **Erreurs Réalistes** : Substitution de caractères proches sur le clavier (sans correction = plus naturel)
-- **Prédiction de Performance** : Affiche le WPM attendu sur le site avant la fin
+### 🎯 Nouvelle v2.1 (Userscript)
+- **Mode Auto Infini** : Enchaîne automatiquement les leçons sans intervention
+- **Kill Switch** : Arrêt d'urgence instantané avec la touche `Echap`
+- **WPM Aléatoire** : Variation réaliste de la vitesse cible à chaque nouvel exercice
+- **Compensation Automatique** : Calibration précise pour atteindre le WPM visé
+- **Erreurs Réalistes** : Substitution de caractères proches (sans correction)
 
 ### 🧠 Simulation Humaine Avancée
 - **Distribution Normale** : Délais basés sur Box-Muller transform (variation ±15%)
