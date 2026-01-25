@@ -5,47 +5,6 @@
 // License: MIT
 // ═══════════════════════════════════════════════════════════════════════
 
-// ═══════════════════════════════════════════════════════════════════
-// AUTO-LOADER (MODE AUTO)
-// ═══════════════════════════════════════════════════════════════════
-
-// Si le mode auto était actif et qu'on vient de changer de page,
-// on attend le chargement puis on recharge le script automatiquement
-if (sessionStorage.getItem('BOT_AUTOMODE') === 'true' && !window.BOT_AUTO_LOADING) {
-  window.BOT_AUTO_LOADING = true;
-
-  const scriptUrl = sessionStorage.getItem('BOT_SCRIPT_URL');
-
-  if (scriptUrl && document.readyState === 'loading') {
-    console.log('%c🔄 Mode Auto détecté - Chargement automatique du bot...', 'color: #ff9800; font-weight: bold;');
-
-    document.addEventListener('DOMContentLoaded', async () => {
-      // Attendre un peu que la page soit stable
-      await new Promise(resolve => setTimeout(resolve, 1500));
-
-      console.log('%c📥 Rechargement du script...', 'color: #00bcd4;');
-
-      try {
-        const response = await fetch(scriptUrl);
-        const scriptContent = await response.text();
-
-        // Supprimer la partie auto-loader pour éviter une boucle
-        const scriptWithoutLoader = scriptContent.replace(/\/\/ AUTO-LOADER[\s\S]*?\/\/ FIN AUTO-LOADER/m, '');
-
-        eval(scriptWithoutLoader);
-      } catch (error) {
-        console.error('%c❌ Erreur de rechargement:', 'color: #f44336;', error);
-        sessionStorage.removeItem('BOT_AUTOMODE');
-      }
-    });
-
-    // Arrêter l'exécution ici, le script sera rechargé après DOMContentLoaded
-    throw new Error('AUTO_LOADER_ACTIVE');
-  }
-}
-
-// FIN AUTO-LOADER
-
 (async function () {
   'use strict';
 
@@ -64,30 +23,12 @@ if (sessionStorage.getItem('BOT_AUTOMODE') === 'true' && !window.BOT_AUTO_LOADIN
   // ═══════════════════════════════════════════════════════════════════
   // CONSTANTES ET VARIABLES GLOBALES
   // ═══════════════════════════════════════════════════════════════════
-  const BASE_PENALTY = 1.23;
-  const ERROR_PENALTY_FACTOR = 0.015;
+  const BASE_PENALTY = 1.23; // Calibré après plusieurs tests : compensation précise
+  const ERROR_PENALTY_FACTOR = 0.015; // Chaque erreur ajoute ~1.5% de pénalité
 
   let NUM_ERRORS = 0;
   let totalChars = 0;
   let startTime = 0;
-  let AUTO_MODE = false;
-
-  // ═══════════════════════════════════════════════════════════════════
-  // RESTAURATION DES PARAMÈTRES (MODE AUTO)
-  // ═══════════════════════════════════════════════════════════════════
-
-  if (sessionStorage.getItem('BOT_AUTOMODE') === 'true') {
-    window.BOT_AUTOMODE = true;
-    window.BOT_WPM = parseInt(sessionStorage.getItem('BOT_WPM')) || 60;
-    try {
-      window.BOT_ERRORS = JSON.parse(sessionStorage.getItem('BOT_ERRORS')) || [0, 1, 2, 3];
-    } catch (e) {
-      window.BOT_ERRORS = [0, 1, 2, 3];
-    }
-    console.log('%c🔄 Mode Auto restauré depuis la session précédente', 'color: #ff9800; font-weight: bold;');
-  }
-
-  AUTO_MODE = window.BOT_AUTOMODE || false;
 
   try {
     // ═══════════════════════════════════════════════════════════════════
@@ -103,11 +44,7 @@ if (sessionStorage.getItem('BOT_AUTOMODE') === 'true' && !window.BOT_AUTO_LOADIN
     const totalCompensation = BASE_PENALTY + (NUM_ERRORS * ERROR_PENALTY_FACTOR);
     const TARGET_WPM = Math.round(DESIRED_WPM * totalCompensation);
 
-    if (AUTO_MODE) {
-      console.log(`%c⚙️  Configuration : ${DESIRED_WPM} WPM visé → ${TARGET_WPM} WPM interne (×${totalCompensation.toFixed(2)}) • ${NUM_ERRORS} erreur(s) • MODE AUTO 🔄`, 'color: #00d4ff; font-weight: bold; font-size: 13px;');
-    } else {
-      console.log(`%c⚙️  Configuration : ${DESIRED_WPM} WPM visé → ${TARGET_WPM} WPM interne (×${totalCompensation.toFixed(2)}) • ${NUM_ERRORS} erreur(s)`, 'color: #00d4ff; font-weight: bold; font-size: 13px;');
-    }
+    console.log(`%c⚙️  Configuration : ${DESIRED_WPM} WPM visé → ${TARGET_WPM} WPM interne (×${totalCompensation.toFixed(2)}) • ${NUM_ERRORS} erreur(s)`, 'color: #00d4ff; font-weight: bold; font-size: 13px;');
 
     // ═══════════════════════════════════════════════════════════════════
     // RÉCUPÉRATION DES ÉLÉMENTS DOM
@@ -348,39 +285,6 @@ if (sessionStorage.getItem('BOT_AUTOMODE') === 'true' && !window.BOT_AUTO_LOADIN
     console.log('%c✅ Frappe terminée avec succès!', 'color: #00ff41; font-size: 16px; font-weight: bold; text-shadow: 0 0 5px #00ff41;');
     console.log(`%c📈 Stats : ${actualWPM} WPM réels • ${totalTime.toFixed(1)}s • ${NUM_ERRORS} erreur(s)`, 'color: #ffeb3b; font-weight: bold; font-size: 13px;');
     console.log(`%c🎯 WPM attendu sur le site : ~${expectedSiteWPM} WPM`, 'color: #00d4ff; font-weight: bold;');
-
-    // ═══════════════════════════════════════════════════════════════════
-    // MODE AUTO : PASSAGE AUTOMATIQUE À L'EXERCICE SUIVANT
-    // ═══════════════════════════════════════════════════════════════════
-
-    if (AUTO_MODE) {
-      console.log('%c🔄 Mode Auto activé - Recherche du prochain exercice...', 'color: #ff9800; font-weight: bold;');
-
-      await sleep(2000);
-
-      const nextLessonLink = Array.from(document.querySelectorAll('a'))
-        .find(link => link.textContent.includes('Click here') && link.href.includes('/lesson/'));
-
-      if (nextLessonLink) {
-        console.log(`%c➡️  Prochain exercice trouvé : ${nextLessonLink.href}`, 'color: #4caf50; font-weight: bold;');
-        console.log('%c⏳ Redirection dans 3 secondes...', 'color: #00bcd4;');
-
-        await sleep(3000);
-
-        sessionStorage.setItem('BOT_AUTOMODE', 'true');
-        sessionStorage.setItem('BOT_WPM', window.BOT_WPM || 60);
-        sessionStorage.setItem('BOT_ERRORS', JSON.stringify(window.BOT_ERRORS || [0, 1, 2, 3]));
-
-        // Sauvegarder l'URL du script pour le recharger sur la prochaine page
-        if (window.BOT_SCRIPT_URL) {
-          sessionStorage.setItem('BOT_SCRIPT_URL', window.BOT_SCRIPT_URL);
-        }
-
-        window.location.href = nextLessonLink.href;
-      } else {
-        console.log('%c⚠️  Aucun exercice suivant trouvé - Fin du mode auto', 'color: #ff9800; font-weight: bold;');
-      }
-    }
 
   } catch (error) {
     console.error('%c❌ Erreur critique du bot:', 'color: #f44336; font-weight: bold;', error);
