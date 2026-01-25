@@ -83,7 +83,7 @@
                 console.log('%c🚫 Navigation annulée par Kill Switch !', 'color: red; font-weight: bold;');
             }
 
-            console.log('%c🛑 ARRÊT D\'URGENCE DEMANDÉ (KILL SWITCH) 🛑', 'color: white; background: red; font-size: 20px; padding: 10px;');
+            console.log('%c🛑 Kill Switch activé : Arrêt du bot et du mode auto.', 'color: #ff5252; font-weight: bold; font-size: 14px;');
         }
 
         // Démarrage manuel: Alt + S
