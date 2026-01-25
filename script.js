@@ -1,17 +1,10 @@
-// ═══════════════════════════════════════════════════════════════════════
-// TypingStudy Bot v2.0
-// Auteur: Jordi Brisbois
-// GitHub: https://github.com/JordiBrisbois/EPI-AutoTypingStudy
-// License: MIT
-// ═══════════════════════════════════════════════════════════════════════
-
-(async function() {
+(async function () {
   'use strict';
 
   // ═══════════════════════════════════════════════════════════════════
   // VÉRIFICATION DU VERROU ET INITIALISATION
   // ═══════════════════════════════════════════════════════════════════
-  
+
   if (window.BOT_IS_RUNNING) {
     console.log('%c⚠️ Le bot est déjà en cours d\'exécution!', 'color: #ff9800; font-size: 14px; font-weight: bold;');
     return;
@@ -25,7 +18,7 @@
   // ═══════════════════════════════════════════════════════════════════
   const BASE_PENALTY = 1.23; // Calibré après plusieurs tests : compensation précise
   const ERROR_PENALTY_FACTOR = 0.015; // Chaque erreur ajoute ~1.5% de pénalité
-  
+
   let NUM_ERRORS = 0;
   let totalChars = 0;
   let startTime = 0;
@@ -34,17 +27,21 @@
     // ═══════════════════════════════════════════════════════════════════
     // CONFIGURATION DYNAMIQUE
     // ═══════════════════════════════════════════════════════════════════
-    
+
     const DESIRED_WPM = window.BOT_WPM || 60;
     const errorSource = (typeof window.BOT_ERRORS !== 'undefined') ? window.BOT_ERRORS : [0, 1, 2, 3];
-    NUM_ERRORS = Array.isArray(errorSource) 
+    NUM_ERRORS = Array.isArray(errorSource)
       ? errorSource[Math.floor(Math.random() * errorSource.length)]
       : errorSource;
 
     const totalCompensation = BASE_PENALTY + (NUM_ERRORS * ERROR_PENALTY_FACTOR);
     const TARGET_WPM = Math.round(DESIRED_WPM * totalCompensation);
 
-    console.log(`%c⚙️  Configuration : ${DESIRED_WPM} WPM visé → ${TARGET_WPM} WPM interne (×${totalCompensation.toFixed(2)}) • ${NUM_ERRORS} erreur(s)`, 'color: #00d4ff; font-weight: bold; font-size: 13px;');
+    if (AUTO_MODE) {
+      console.log(`%c⚙️  Configuration : ${DESIRED_WPM} WPM visé → ${TARGET_WPM} WPM interne (×${totalCompensation.toFixed(2)}) • ${NUM_ERRORS} erreur(s) • MODE AUTO 🔄`, 'color: #00d4ff; font-weight: bold; font-size: 13px;');
+    } else {
+      console.log(`%c⚙️  Configuration : ${DESIRED_WPM} WPM visé → ${TARGET_WPM} WPM interne (×${totalCompensation.toFixed(2)}) • ${NUM_ERRORS} erreur(s)`, 'color: #00d4ff; font-weight: bold; font-size: 13px;');
+    }
 
     // ═══════════════════════════════════════════════════════════════════
     // RÉCUPÉRATION DES ÉLÉMENTS DOM
@@ -61,7 +58,7 @@
     const targetText = hiddenInput.value
       .replace(/\\n/g, '\n')
       .replace(/¶/g, ' ');
-    
+
     totalChars = targetText.length;
 
     console.log(`%c📝 Texte chargé : ${totalChars} caractères`, 'color: #ffeb3b; font-weight: bold;');
@@ -89,16 +86,16 @@
 
     if (NUM_ERRORS > 0 && totalChars > SAFE_ZONE * 2) {
       const maxErrors = Math.min(NUM_ERRORS, totalChars - SAFE_ZONE * 2);
-      
+
       while (errorIndices.size < maxErrors) {
         const randomIndex = Math.floor(Math.random() * (totalChars - SAFE_ZONE * 2)) + SAFE_ZONE;
         const char = targetText[randomIndex];
-        
+
         if (char !== ' ' && char !== '\n') {
           errorIndices.add(randomIndex);
         }
       }
-      
+
       const sortedErrors = Array.from(errorIndices).sort((a, b) => a - b);
       console.log(`%c🎯 Positions d'erreurs : [${sortedErrors.join(', ')}]`, 'color: #ff6b6b; font-weight: bold;');
     }
@@ -148,7 +145,7 @@
 
       let inputType = 'insertText';
       let data = char;
-      
+
       if (key === 'Enter') {
         inputType = 'insertLineBreak';
         data = null;
@@ -178,7 +175,7 @@
       if (/[A-Z]/.test(char)) {
         delay += Math.abs(randomNormal(5, 2));
       }
-      
+
       if (char === ' ') {
         delay += Math.abs(randomNormal(5, 2));
       }
@@ -206,7 +203,7 @@
 
       if (errorIndices.has(i)) {
         let wrongChar;
-        
+
         if (/[a-z]/i.test(char)) {
           const keyboardProximity = {
             'a': ['z', 'q', 's'], 'b': ['v', 'n', 'g', 'h'], 'c': ['x', 'v', 'd', 'f'],
@@ -221,11 +218,11 @@
             'v': ['c', 'b', 'f', 'g'], 'w': ['q', 'e', 's', 'a'],
             'x': ['z', 'c', 's', 'd'], 'y': ['t', 'u', 'h', 'g'], 'z': ['a', 's', 'x']
           };
-          
+
           const lowerChar = char.toLowerCase();
           const proximityKeys = keyboardProximity[lowerChar] || ['a', 'e', 'i', 'o', 'u'];
           wrongChar = proximityKeys[Math.floor(Math.random() * proximityKeys.length)];
-          
+
           if (char === char.toUpperCase()) {
             wrongChar = wrongChar.toUpperCase();
           }
@@ -242,18 +239,18 @@
           const similarChars = ['a', 'e', 'i', 'o', 'u', 's', 't', 'n'];
           wrongChar = similarChars[Math.floor(Math.random() * similarChars.length)];
         }
-        
+
         console.log(`%c❌ Position ${i} : Substitution '${char}' → '${wrongChar}' (non corrigée)`, 'color: #ff9800;');
-        
+
         if (wrongChar === '\n') {
           await sendKey('\n');
         } else {
           await sendKey(wrongChar);
         }
-        
+
         const delay = getTypingDelay(wrongChar);
         await sleep(delay);
-        
+
         continue;
       }
 
@@ -281,10 +278,38 @@
     const actualWPM = Math.round((totalChars / 5) / (totalTime / 60));
     const compensation = BASE_PENALTY + (NUM_ERRORS * ERROR_PENALTY_FACTOR);
     const expectedSiteWPM = Math.round(actualWPM / compensation);
-    
+
     console.log('%c✅ Frappe terminée avec succès!', 'color: #00ff41; font-size: 16px; font-weight: bold; text-shadow: 0 0 5px #00ff41;');
     console.log(`%c📈 Stats : ${actualWPM} WPM réels • ${totalTime.toFixed(1)}s • ${NUM_ERRORS} erreur(s)`, 'color: #ffeb3b; font-weight: bold; font-size: 13px;');
     console.log(`%c🎯 WPM attendu sur le site : ~${expectedSiteWPM} WPM`, 'color: #00d4ff; font-weight: bold;');
+
+    // ═══════════════════════════════════════════════════════════════════
+    // MODE AUTO : PASSAGE AUTOMATIQUE À L'EXERCICE SUIVANT
+    // ═══════════════════════════════════════════════════════════════════
+
+    if (AUTO_MODE) {
+      console.log('%c🔄 Mode Auto activé - Recherche du prochain exercice...', 'color: #ff9800; font-weight: bold;');
+
+      await sleep(2000);
+
+      const nextLessonLink = Array.from(document.querySelectorAll('a'))
+        .find(link => link.textContent.includes('Click here') && link.href.includes('/lesson/'));
+
+      if (nextLessonLink) {
+        console.log(`%c➡️  Prochain exercice trouvé : ${nextLessonLink.href}`, 'color: #4caf50; font-weight: bold;');
+        console.log('%c⏳ Redirection dans 3 secondes...', 'color: #00bcd4;');
+
+        await sleep(3000);
+
+        sessionStorage.setItem('BOT_AUTOMODE', 'true');
+        sessionStorage.setItem('BOT_WPM', window.BOT_WPM || 60);
+        sessionStorage.setItem('BOT_ERRORS', JSON.stringify(window.BOT_ERRORS || [0, 1, 2, 3]));
+
+        window.location.href = nextLessonLink.href;
+      } else {
+        console.log('%c⚠️  Aucun exercice suivant trouvé - Fin du mode auto', 'color: #ff9800; font-weight: bold;');
+      }
+    }
 
   } catch (error) {
     console.error('%c❌ Erreur critique du bot:', 'color: #f44336; font-weight: bold;', error);
