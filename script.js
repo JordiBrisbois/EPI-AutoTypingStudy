@@ -5,6 +5,47 @@
 // License: MIT
 // ═══════════════════════════════════════════════════════════════════════
 
+// ═══════════════════════════════════════════════════════════════════
+// AUTO-LOADER (MODE AUTO)
+// ═══════════════════════════════════════════════════════════════════
+
+// Si le mode auto était actif et qu'on vient de changer de page,
+// on attend le chargement puis on recharge le script automatiquement
+if (sessionStorage.getItem('BOT_AUTOMODE') === 'true' && !window.BOT_AUTO_LOADING) {
+  window.BOT_AUTO_LOADING = true;
+
+  const scriptUrl = sessionStorage.getItem('BOT_SCRIPT_URL');
+
+  if (scriptUrl && document.readyState === 'loading') {
+    console.log('%c🔄 Mode Auto détecté - Chargement automatique du bot...', 'color: #ff9800; font-weight: bold;');
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Attendre un peu que la page soit stable
+      await new Promise(resolve => setTimeout(resolve, 1500));
+
+      console.log('%c📥 Rechargement du script...', 'color: #00bcd4;');
+
+      try {
+        const response = await fetch(scriptUrl);
+        const scriptContent = await response.text();
+
+        // Supprimer la partie auto-loader pour éviter une boucle
+        const scriptWithoutLoader = scriptContent.replace(/\/\/ AUTO-LOADER[\s\S]*?\/\/ FIN AUTO-LOADER/m, '');
+
+        eval(scriptWithoutLoader);
+      } catch (error) {
+        console.error('%c❌ Erreur de rechargement:', 'color: #f44336;', error);
+        sessionStorage.removeItem('BOT_AUTOMODE');
+      }
+    });
+
+    // Arrêter l'exécution ici, le script sera rechargé après DOMContentLoaded
+    throw new Error('AUTO_LOADER_ACTIVE');
+  }
+}
+
+// FIN AUTO-LOADER
+
 (async function () {
   'use strict';
 
@@ -329,6 +370,11 @@
         sessionStorage.setItem('BOT_AUTOMODE', 'true');
         sessionStorage.setItem('BOT_WPM', window.BOT_WPM || 60);
         sessionStorage.setItem('BOT_ERRORS', JSON.stringify(window.BOT_ERRORS || [0, 1, 2, 3]));
+
+        // Sauvegarder l'URL du script pour le recharger sur la prochaine page
+        if (window.BOT_SCRIPT_URL) {
+          sessionStorage.setItem('BOT_SCRIPT_URL', window.BOT_SCRIPT_URL);
+        }
 
         window.location.href = nextLessonLink.href;
       } else {
