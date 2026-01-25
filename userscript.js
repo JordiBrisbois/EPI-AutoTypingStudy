@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         TypingStudy Auto-Bot
 // @namespace    http://tampermonkey.net/
-// @version      2.1
+// @version      2.1.1
 // @description  Bot intelligent pour TypingStudy avec mode auto, kill switch et simulation humaine
 // @author       Jordi Brisbois
 // @match        https://typingstudy.com/*
@@ -63,6 +63,7 @@
     // Variables d'état
     let stopRequested = false;
     let botRunning = false;
+    let navigationTimeout = null;
 
     // ═══════════════════════════════════════════════════════════════════════
     // GESTION DU KILL SWITCH ET DES ÉVÉNEMENTS
@@ -74,6 +75,14 @@
             stopRequested = true;
             botRunning = false;
             sessionStorage.removeItem('BOT_AUTO_ACTIVE'); // Désactive le mode auto
+
+            // Annulation de toute navigation prévue
+            if (navigationTimeout) {
+                clearTimeout(navigationTimeout);
+                navigationTimeout = null;
+                console.log('%c🚫 Navigation annulée par Kill Switch !', 'color: red; font-weight: bold;');
+            }
+
             console.log('%c🛑 ARRÊT D\'URGENCE DEMANDÉ (KILL SWITCH) 🛑', 'color: white; background: red; font-size: 20px; padding: 10px;');
         }
 
@@ -99,7 +108,9 @@
         if (lessonComplete) {
             if (autoActive) {
                 console.log(`%c🏁 Leçon terminée. Passage à la suivante dans ${CONFIG.AUTO_NAV_DELAY / 1000}s... (Appuyez sur Echap pour annuler)`, 'color: #ff9800; font-weight: bold;');
-                setTimeout(() => {
+
+                // On stocke l'ID du timeout pour pouvoir l'annuler
+                navigationTimeout = setTimeout(() => {
                     if (!stopRequested && sessionStorage.getItem('BOT_AUTO_ACTIVE') === 'true') {
                         goToNextLesson();
                     } else {
@@ -251,7 +262,13 @@
                 const autoActive = sessionStorage.getItem('BOT_AUTO_ACTIVE') === 'true';
                 if (autoActive) {
                     console.log(`%c🏁 Leçon terminée (AJAX). Suivante dans ${CONFIG.AUTO_NAV_DELAY / 1000}s...`, 'color: #ff9800');
-                    setTimeout(goToNextLesson, CONFIG.AUTO_NAV_DELAY);
+
+                    if (navigationTimeout) clearTimeout(navigationTimeout);
+                    navigationTimeout = setTimeout(() => {
+                        if (!stopRequested && sessionStorage.getItem('BOT_AUTO_ACTIVE') === 'true') {
+                            goToNextLesson();
+                        }
+                    }, CONFIG.AUTO_NAV_DELAY);
                 }
             }
             attempts++;

@@ -1,5 +1,5 @@
 // ═══════════════════════════════════════════════════════════════════════
-// TypingStudy Bot v2.1
+// TypingStudy Bot v2.1.1
 // Auteur: Jordi Brisbois
 // GitHub: https://github.com/JordiBrisbois/EPI-AutoTypingStudy
 // License: MIT
@@ -18,7 +18,7 @@
   }
 
   window.BOT_IS_RUNNING = true;
-  console.log('%c🤖 Démarrage du Bot TypingStudy v2.1', 'color: #00ff41; font-size: 16px; font-weight: bold; text-shadow: 0 0 5px #00ff41;');
+  console.log('%c🤖 Démarrage du Bot TypingStudy v2.1.1', 'color: #00ff41; font-size: 16px; font-weight: bold; text-shadow: 0 0 5px #00ff41;');
 
   // ═══════════════════════════════════════════════════════════════════
   // CONSTANTES ET VARIABLES GLOBALES

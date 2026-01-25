@@ -1,15 +1,15 @@
-# ⌨️ TypingStudy Bot v2.1
+# ⌨️ TypingStudy Bot v2.1.1
 
 **Bot d'auto-typing intelligent pour [TypingStudy.com](https://www.typingstudy.com)** avec simulation humaine avancée et calibration automatique du WPM.
 
-[![Version](https://img.shields.io/badge/version-2.1-blue.svg)](https://github.com/JordiBrisbois/EPI-AutoTypingStudy)
+[![Version](https://img.shields.io/badge/version-2.1.1-blue.svg)](https://github.com/JordiBrisbois/EPI-AutoTypingStudy)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ---
 
 ## ✨ Fonctionnalités
 
-### 🎯 Nouvelle v2.1 (Userscript)
+### 🎯 Nouvelle v2.1.1 (Userscript)
 - **Mode Auto Infini** : Enchaîne automatiquement les leçons sans intervention
 - **Kill Switch** : Arrêt d'urgence instantané avec la touche `Echap`
 - **WPM Aléatoire** : Variation réaliste de la vitesse cible à chaque nouvel exercice
@@ -251,6 +251,10 @@ délai_final = normale(délai_base, ±15%)
 ---
 
 ## 📜 Changelog
+
+### v2.1.1 (2025-01-25)
+- 🐛 **Correction Kill Switch** : L'appui sur `Echap` annule désormais correctement les redirections en attente (race condition).
+- 🧹 Nettoyage de code (suppression variables inutilisées).
 
 ### v2.1 (2025-01-25)
 - ✨ Ajout du Userscript Tampermonkey
