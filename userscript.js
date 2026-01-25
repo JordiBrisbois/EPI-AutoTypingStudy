@@ -6,8 +6,8 @@
 // @author       Jordi Brisbois
 // @match        https://*.typingstudy.com/*/lesson/*
 // @grant        none
-// @updateURL    https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/userscript.user.js
-// @downloadURL  https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/userscript.user.js
+// @updateURL    https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/userscript.js
+// @downloadURL  https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/userscript.js
 // ==/UserScript==
 
 (function () {
