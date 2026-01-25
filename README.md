@@ -30,7 +30,20 @@
 
 ## 🚀 Utilisation
 
-### Méthode 1️⃣ : Bookmarklet (Recommandé ⚡)
+### Option A : Userscript (Auto-Mode & Boucles Infinies ♾️) - RECOMMANDÉ
+
+Cette méthode permet au bot de **s'exécuter automatiquement** d'une leçon à l'autre et inclut un **Kill Switch**.
+
+1. **Installez l'extension** [Tampermonkey](https://www.tampermonkey.net/) sur votre navigateur.
+2. Cliquez sur l'icône Tampermonkey → **Ajouter un nouveau script**.
+3. Tout effacer et copier-coller le contenu du fichier [`userscript.js`](userscript.js).
+4. **Sauvegardez** (Ctrl+S).
+
+**Contrôles :**
+- `Alt + S` : Démarrer le bot (active le **Mode Auto**).
+- `Echap` (Escape) : **ARRÊT D'URGENCE** (Arrête le bot et désactive le Mode Auto).
+
+### Option B : Bookmarklet (Rapide ⚡)
 
 **Lancez le bot en un clic depuis vos favoris !**
 
@@ -55,7 +68,7 @@ javascript:(function(){window.BOT_WPM=60;window.BOT_ERRORS=[0,1,2,3];fetch('http
 
 ---
 
-### Méthode 2️⃣ : Console du Navigateur (Personnalisation 🛠️)
+### Option C : Console du Navigateur (Personnalisation 🛠️)
 
 **Pour ajuster finement les paramètres avant chaque exercice**
 
@@ -80,6 +93,22 @@ window.BOT_ERRORS = [0, 1, 2, 3]; // Nombre d'erreurs (aléatoire)
 fetch('https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/script.js')
     .then(r => r.text())
     .then(eval);
+```
+
+---
+
+## ⚙️ Configuration (Userscript)
+
+Si vous utilisez la méthode Userscript, vous pouvez éditer les constantes en haut du fichier `userscript.js` :
+
+```javascript
+const CONFIG = {
+    MIN_WPM: 61,        // Vitesse min
+    MAX_WPM: 68,        // Vitesse max (choisie aléatoirement par leçon)
+    ERROR_RATES: [0, 1, 2], // Nombre d'erreurs possibles
+    AUTO_NAV_DELAY: 4000, // Attente avant leçon suivante (ms)
+    START_KEY: 's'      // Touche raccourci (Alt + s)
+};
 ```
 
 ---
