@@ -1,13 +1,19 @@
-# ⌨️ TypingStudy Bot v2.3.0
+# ⌨️ TypingStudy Bot v2.3.1
 
 **Bot d'auto-typing intelligent pour [TypingStudy.com](https://www.typingstudy.com)** avec simulation humaine avancée et calibration automatique du WPM.
 
-[![Version](https://img.shields.io/badge/version-2.3.0-blue.svg)](https://github.com/JordiBrisbois/EPI-AutoTypingStudy)
+[![Version](https://img.shields.io/badge/version-2.3.1-blue.svg)](https://github.com/JordiBrisbois/EPI-AutoTypingStudy)
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 ---
 
-### 🎯 Nouvelle v2.3.0 (Userscript)
+## 📜 Changelog
+
+### v2.3.1 (2025-01-25)
+- 🌍 **Support Étendu** : Le bot fonctionne maintenant sur les pages **Speed Test**, **Typing Test** et **Numeric Keypad**.
+- 🛠️ Mise à jour des URLs de correspondance (`@match`).
+
+### v2.3.0 (2025-01-25) - "Pro Edition" 💎
 - **Mode Auto Infini** : Enchaîne automatiquement les leçons sans intervention
 - **Kill Switch** : Arrêt d'urgence instantané avec la touche `Echap`
 - **WPM Aléatoire** : Variation réaliste de la vitesse cible à chaque nouvel exercice
@@ -96,7 +102,7 @@ fetch('https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/maste
 
 ---
 
-## ⚙️ Configuration (Userscript)
+### 🎯 Nouvelle v2.3.1 (Userscript)
 
 Si vous utilisez la méthode Userscript, vous pouvez éditer les constantes en haut du fichier `userscript.js` :
 

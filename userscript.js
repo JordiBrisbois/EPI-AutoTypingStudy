@@ -1,10 +1,13 @@
 // ==UserScript==
 // @name         TypingStudy Auto-Bot v2.3
 // @namespace    http://tampermonkey.net/
-// @version      2.3.0
+// @version      2.3.1
 // @description  Bot intelligent pour TypingStudy avec UI, Stats, Mode Auto et Kill Switch
 // @author       Jordi Brisbois
 // @match        https://*.typingstudy.com/*/lesson/*
+// @match        https://*.typingstudy.com/*/speedtest
+// @match        https://*.typingstudy.com/*/typingtest
+// @match        https://*.typingstudy.com/*/numeric_keypad
 // @grant        none
 // @updateURL    https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/userscript.js
 // @downloadURL  https://raw.githubusercontent.com/JordiBrisbois/EPI-AutoTypingStudy/master/userscript.js
@@ -735,7 +738,7 @@
     // INITIALISATION
     // ═══════════════════════════════════════════════════════════════════════
 
-    Logger.info('🤖 TypingStudy Auto-Bot v2.3 chargé');
+    Logger.info('🤖 TypingStudy Auto-Bot v2.3.1 chargé');
     Logger.debug('Configuration : ' + JSON.stringify(CONFIG));
 
 })();
